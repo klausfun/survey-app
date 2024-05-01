@@ -1,8 +1,12 @@
 package service
 
-import "survey_app/pkg/repository"
+import (
+	survey "survey_app"
+	"survey_app/pkg/repository"
+)
 
 type Authorization interface {
+	CreateUser(user survey.User) (int, error)
 }
 
 type Surveys interface {
@@ -18,5 +22,7 @@ type Service struct {
 }
 
 func NewService(repos *repository.Repository) *Service {
-	return &Service{}
+	return &Service{
+		Authorization: NewAuthService(repos.Authorization),
+	}
 }
