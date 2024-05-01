@@ -4,10 +4,14 @@ import (
 	"github.com/sirupsen/logrus"
 	survey "survey_app"
 	"survey_app/pkg/handler"
+	"survey_app/pkg/repository"
+	"survey_app/pkg/service"
 )
 
 func main() {
-	handlers := new(handler.Handler)
+	repos := repository.NewRepository()
+	services := service.NewService(repos)
+	handlers := handler.NewHandler(services)
 
 	srv := new(survey.Server)
 	if err := srv.Run("8000", handlers.InitRoutes()); err != nil {
