@@ -8,7 +8,7 @@ import (
 type Authorization interface {
 	CreateUser(user survey.User) (int, error)
 	GenerateToken(email, password, role string) (string, error)
-	ParseToken(token string) (int, error)
+	ParseToken(token string) (int, string, error)
 }
 
 type Surveys interface {

@@ -6,13 +6,20 @@ import (
 )
 
 func (h *Handler) createSurvey(c *gin.Context) {
-
+	id, _ := c.Get(userCtx)
+	role, _ := c.Get(adminCtx)
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"id":   id,
+		"role": role,
+	})
 }
 
 func (h *Handler) getAllSurveys(c *gin.Context) {
 	id, _ := c.Get(userCtx)
+	role, _ := c.Get(adminCtx)
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"id": id,
+		"id":   id,
+		"role": role,
 	})
 }
 

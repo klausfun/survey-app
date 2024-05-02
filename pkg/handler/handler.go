@@ -31,14 +31,14 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			surveys.PATCH("/:id", h.updateSurvey)
 		}
 
-		admin := api.Group("/admin") // h.adminIdentity
+		admin := api.Group("/admin", h.adminIdentity)
 		{
-			surveys := admin.Group("/surveys")
+			survey := admin.Group("/surveys")
 			{
-				surveys.POST("/", h.createSurvey)
-				surveys.GET("/", h.getAllSurveys)
-				surveys.GET("/:id", h.getSurveyById)
-				surveys.DELETE("/:id", h.deleteSurvey)
+				survey.POST("/", h.createSurvey)
+				survey.GET("/", h.getAllSurveys)
+				survey.GET("/:id", h.getSurveyById)
+				survey.DELETE("/:id", h.deleteSurvey)
 			}
 
 			usersList := admin.Group("/usersList")

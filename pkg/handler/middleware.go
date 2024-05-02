@@ -9,6 +9,7 @@ import (
 const (
 	authorizationHeader = "Authorization"
 	userCtx             = "userId"
+	adminCtx            = "role"
 )
 
 func (h *Handler) userIdentity(c *gin.Context) {
@@ -34,11 +35,21 @@ func (h *Handler) userIdentity(c *gin.Context) {
 		return
 	}
 
-	userId, err := h.services.Authorization.ParseToken(headerParts[1])
+	userId, role, err := h.services.Authorization.ParseToken(headerParts[1])
 	if err != nil {
 		newErrorResponse(c, http.StatusUnauthorized, err.Error())
 		return
 	}
 
+	c.Set(adminCtx, role)
 	c.Set(userCtx, userId)
+}
+
+func (h *Handler) adminIdentity(c *gin.Context) {
+	role, _ := c.Get(adminCtx)
+
+	if role != "admin" {
+		newErrorResponse(c, http.StatusUnauthorized, "insufficient access rights")
+		return
+	}
 }
