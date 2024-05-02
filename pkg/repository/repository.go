@@ -7,6 +7,7 @@ import (
 
 type Authorization interface {
 	CreateUser(user survey.User) (int, error)
+	GetUser(email, password, role string) (survey.User, error)
 }
 
 type Surveys interface {

@@ -5,6 +5,7 @@ CREATE TABLE users
     password_hash varchar(255) not null,
     email         varchar(255) not null unique,
     role          varchar(255) not null
+--     adminCode     varchar(255)
 );
 
 CREATE TABLE surveys
