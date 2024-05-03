@@ -5,15 +5,12 @@ CREATE TABLE users
     password_hash varchar(255) not null,
     email         varchar(255) not null unique,
     role          varchar(255) not null
---     adminCode     varchar(255)
 );
 
 CREATE TABLE surveys
 (
     id        serial       not null unique,
-    type      varchar(255) not null,
-    done      boolean      not null default false,
-    winner_id int
+    types      varchar(255) not null
 );
 
 CREATE TABLE users_surveys

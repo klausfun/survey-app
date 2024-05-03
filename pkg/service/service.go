@@ -12,6 +12,7 @@ type Authorization interface {
 }
 
 type Surveys interface {
+	CreateSurvey(userId int, survey survey.Data) (int, error)
 }
 
 type Users interface {
@@ -26,5 +27,6 @@ type Service struct {
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
+		Surveys:       NewSurveyService(repos.Surveys),
 	}
 }

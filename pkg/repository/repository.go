@@ -11,6 +11,7 @@ type Authorization interface {
 }
 
 type Surveys interface {
+	CreateSurvey(userId int, survey survey.Data) (int, error)
 }
 
 type Users interface {
@@ -25,5 +26,6 @@ type Repository struct {
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
+		Surveys:       NewSurveyPostgres(db),
 	}
 }
