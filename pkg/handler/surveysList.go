@@ -29,7 +29,25 @@ func (h *Handler) createSurvey(c *gin.Context) {
 	})
 }
 
+type getAllSurveysResponse struct {
+	Data []survey.Surveys `json:"data"`
+}
+
 func (h *Handler) getAllSurveys(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	surveys, err := h.services.Surveys.GetAll(userId)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, getAllSurveysResponse{
+		Data: surveys,
+	})
 }
 
 func (h *Handler) getSurveyById(c *gin.Context) {

@@ -1,17 +1,30 @@
 package survey
 
 type Data struct {
-	Types               string        `json:"types" binding:"required"`
-	AnswersDescription  []interface{} `json:"answers_description" binding:"required"`
-	QuestionDescription string        `json:"question_description" binding:"required"`
-	CountAnswers        int           `json:"countAnswers" binding:"required"`
+	Id                  int           `json:"id" db:"id"`
+	Types               string        `json:"types" binding:"required" db:"types"`
+	AnswersDescription  []interface{} `json:"answers_description" binding:"required" db:"answers_description"`
+	QuestionDescription string        `json:"question_description" binding:"required" db:"question_description"`
 }
 
-//
+type Surveys struct {
+	Id                  int    `json:"id" db:"id"`
+	Types               string `json:"types" db:"types"`
+	AnswersDescription  string `json:"answers_description" db:"answers_description"`
+	QuestionDescription string `json:"question_description" db:"question_description"`
+	Amount              int    `json:"amount" db:"amount"`
+}
+
+type Answers struct {
+	Description string `json:"description" db:"answer"`
+	Amount      int    `json:"amount" db:"amount"`
+}
+
 //type Surveys struct {
-//	Id    int    `json:"id"`
-//	Types string `json:"types" binding:"required"`
+//	Id    int    `json:"id" db:"id"`
+//	Types string `json:"types" db:"types"`
 //}
+
 //
 //type UsersSurveys struct {
 //	Id       int

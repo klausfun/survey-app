@@ -12,6 +12,7 @@ type Authorization interface {
 
 type Surveys interface {
 	CreateSurvey(userId int, survey survey.Data) (int, error)
+	GetAll(userId int) ([]survey.Surveys, error)
 }
 
 type Users interface {

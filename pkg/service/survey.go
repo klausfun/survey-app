@@ -16,3 +16,7 @@ func NewSurveyService(repo repository.Surveys) *SurveyService {
 func (s *SurveyService) CreateSurvey(userId int, survey survey.Data) (int, error) {
 	return s.repo.CreateSurvey(userId, survey)
 }
+
+func (s *SurveyService) GetAll(userId int) ([]survey.Surveys, error) {
+	return s.repo.GetAll(userId)
+}
