@@ -72,32 +72,35 @@ func (r *SurveyPostgres) CreateSurvey(userId int, survey survey.Data) (int, erro
 
 func (r *SurveyPostgres) GetAll(userId int) ([]survey.Surveys, error) {
 	var surveys []survey.Surveys
-	//var answers []survey.Answers
-	//
-	//queryAnswers := fmt.Sprintf("SELECT ans.description as answer, ans.amount as amount FROM %s sur"+
-	//	" INNER JOIN %s us      on us.survey_id = sur.id"+
-	//	" INNER JOIN %s sur_qst on sur.id = sur_qst.survey_id"+
-	//	" INNER JOIN %s qst 	on sur_qst.question_id = qst.id"+
-	//	" INNER JOIN %s qst_ans on qst_ans.question_id = qst.id"+
-	//	" INNER JOIN %s ans 	on ans.id = qst_ans.answer_id"+
-	//	" WHERE us.user_id = $1",
-	//	surveysTable, usersSurveysTable, surveysQuestionsTable, questionsTable, questionsAnswersTable, answersTable)
-	//err := r.db.Select(&answers, queryAnswers, userId)
-	//if err != nil {
-	//	return nil, err
-	//}
 
 	query := fmt.Sprintf("SELECT sur.id, sur.types,"+
-		" qst.description as question_description, ans.description as answers_description, ans.amount as amount"+
+		" qst.description as question_description"+
 		" FROM %s sur"+
 		" INNER JOIN %s us 	    on us.survey_id = sur.id"+
 		" INNER JOIN %s sur_qst on sur.id = sur_qst.survey_id"+
 		" INNER JOIN %s qst 	on sur_qst.question_id = qst.id"+
-		" INNER JOIN %s qst_ans on qst_ans.question_id = qst.id"+
-		" INNER JOIN %s ans 	on ans.id = qst_ans.answer_id"+
 		" WHERE us.user_id = $1",
-		surveysTable, usersSurveysTable, surveysQuestionsTable, questionsTable, questionsAnswersTable, answersTable)
+		surveysTable, usersSurveysTable, surveysQuestionsTable, questionsTable)
 	err := r.db.Select(&surveys, query, userId)
+
+	for i, curSurvey := range surveys {
+		var answers []survey.Answers
+
+		queryAnswers := fmt.Sprintf("SELECT ans.description as description, ans.amount as amount FROM %s sur"+
+			" INNER JOIN %s us      on us.survey_id = sur.id"+
+			" INNER JOIN %s sur_qst on sur.id = sur_qst.survey_id"+
+			" INNER JOIN %s qst 	on sur_qst.question_id = qst.id"+
+			" INNER JOIN %s qst_ans on qst_ans.question_id = qst.id"+
+			" INNER JOIN %s ans 	on ans.id = qst_ans.answer_id"+
+			" WHERE us.user_id = $1 AND sur.id = $2",
+			surveysTable, usersSurveysTable, surveysQuestionsTable, questionsTable, questionsAnswersTable, answersTable)
+		err := r.db.Select(&answers, queryAnswers, userId, curSurvey.Id)
+		if err != nil {
+			return nil, err
+		}
+
+		surveys[i].AnswersDescription = answers
+	}
 
 	return surveys, err
 }

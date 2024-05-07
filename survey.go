@@ -8,15 +8,14 @@ type Data struct {
 }
 
 type Surveys struct {
-	Id                  int    `json:"id" db:"id"`
-	Types               string `json:"types" db:"types"`
-	AnswersDescription  string `json:"answers_description" db:"answers_description"`
-	QuestionDescription string `json:"question_description" db:"question_description"`
-	Amount              int    `json:"amount" db:"amount"`
+	Id                  int       `json:"id" db:"id"`
+	Types               string    `json:"types" db:"types"`
+	QuestionDescription string    `json:"question_description" db:"question_description"`
+	AnswersDescription  []Answers `json:"answers_description" db:"answers_description"`
 }
 
 type Answers struct {
-	Description string `json:"description" db:"answer"`
+	Description string `json:"description" db:"description"`
 	Amount      int    `json:"amount" db:"amount"`
 }
 
