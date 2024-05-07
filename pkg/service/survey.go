@@ -20,3 +20,7 @@ func (s *SurveyService) CreateSurvey(userId int, survey survey.Data) (int, error
 func (s *SurveyService) GetAll(userId int) ([]survey.Surveys, error) {
 	return s.repo.GetAll(userId)
 }
+
+func (s *SurveyService) GetById(userId, surveyId int) (survey.Surveys, error) {
+	return s.repo.GetById(userId, surveyId)
+}

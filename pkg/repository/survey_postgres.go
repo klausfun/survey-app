@@ -104,3 +104,34 @@ func (r *SurveyPostgres) GetAll(userId int) ([]survey.Surveys, error) {
 
 	return surveys, err
 }
+
+func (r *SurveyPostgres) GetById(userId, surveyId int) (survey.Surveys, error) {
+	var sur survey.Surveys
+	var answers []survey.Answers
+
+	queryAnswers := fmt.Sprintf("SELECT ans.description as description, ans.amount as amount FROM %s sur"+
+		" INNER JOIN %s us      on us.survey_id = sur.id"+
+		" INNER JOIN %s sur_qst on sur.id = sur_qst.survey_id"+
+		" INNER JOIN %s qst 	on sur_qst.question_id = qst.id"+
+		" INNER JOIN %s qst_ans on qst_ans.question_id = qst.id"+
+		" INNER JOIN %s ans 	on ans.id = qst_ans.answer_id"+
+		" WHERE us.user_id = $1 AND sur.id = $2",
+		surveysTable, usersSurveysTable, surveysQuestionsTable, questionsTable, questionsAnswersTable, answersTable)
+	err := r.db.Select(&answers, queryAnswers, userId, surveyId)
+	if err != nil {
+		return sur, err
+	}
+
+	query := fmt.Sprintf("SELECT sur.id, sur.types,"+
+		" qst.description as question_description"+
+		" FROM %s sur"+
+		" INNER JOIN %s us 	    on us.survey_id = sur.id"+
+		" INNER JOIN %s sur_qst on sur.id = sur_qst.survey_id"+
+		" INNER JOIN %s qst 	on sur_qst.question_id = qst.id"+
+		" WHERE us.user_id = $1 AND sur.id = $2",
+		surveysTable, usersSurveysTable, surveysQuestionsTable, questionsTable)
+	err = r.db.Get(&sur, query, userId, surveyId)
+	sur.AnswersDescription = answers
+
+	return sur, err
+}

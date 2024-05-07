@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	survey "survey_app"
 )
 
@@ -51,7 +52,24 @@ func (h *Handler) getAllSurveys(c *gin.Context) {
 }
 
 func (h *Handler) getSurveyById(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
 
+	surveyId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid is param")
+		return
+	}
+
+	sur, err := h.services.Surveys.GetById(userId, surveyId)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, sur)
 }
 
 func (h *Handler) updateSurvey(c *gin.Context) {
