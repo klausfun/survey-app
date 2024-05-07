@@ -15,6 +15,7 @@ type Surveys interface {
 	CreateSurvey(userId int, survey survey.Data) (int, error)
 	GetAll(userId int) ([]survey.Surveys, error)
 	GetById(userId, surveyId int) (survey.Surveys, error)
+	Delete(userId, surveyId int) error
 }
 
 type Users interface {

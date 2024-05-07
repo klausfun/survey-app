@@ -135,3 +135,11 @@ func (r *SurveyPostgres) GetById(userId, surveyId int) (survey.Surveys, error) {
 
 	return sur, err
 }
+
+func (r *SurveyPostgres) Delete(userId, surveyId int) error {
+	query := fmt.Sprintf("DELETE FROM %s sur USING %s us WHERE sur.id = us.survey_id "+
+		"AND us.user_id = $1 AND us.survey_id = $2", surveysTable, usersSurveysTable)
+	_, err := r.db.Exec(query, userId, surveyId)
+
+	return err
+}

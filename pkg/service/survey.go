@@ -24,3 +24,7 @@ func (s *SurveyService) GetAll(userId int) ([]survey.Surveys, error) {
 func (s *SurveyService) GetById(userId, surveyId int) (survey.Surveys, error) {
 	return s.repo.GetById(userId, surveyId)
 }
+
+func (s *SurveyService) Delete(userId, surveyId int) error {
+	return s.repo.Delete(userId, surveyId)
+}

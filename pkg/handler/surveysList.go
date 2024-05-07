@@ -77,5 +77,20 @@ func (h *Handler) updateSurvey(c *gin.Context) {
 }
 
 func (h *Handler) deleteSurvey(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
 
+	surveyId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid is param")
+		return
+	}
+
+	err = h.services.Surveys.Delete(userId, surveyId)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 }
