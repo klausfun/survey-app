@@ -16,3 +16,7 @@ func NewUserService(repo repository.Users) *UserService {
 func (s *UserService) GetAll() ([]survey.User, error) {
 	return s.repo.GetAll()
 }
+
+func (s *UserService) GetById(userId int) (survey.User, error) {
+	return s.repo.GetById(userId)
+}

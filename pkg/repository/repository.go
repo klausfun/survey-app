@@ -20,6 +20,7 @@ type Surveys interface {
 
 type Users interface {
 	GetAll() ([]survey.User, error)
+	GetById(userId int) (survey.User, error)
 }
 
 type Repository struct {

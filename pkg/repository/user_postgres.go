@@ -21,3 +21,11 @@ func (r *UserPostgres) GetAll() ([]survey.User, error) {
 
 	return users, err
 }
+
+func (r *UserPostgres) GetById(userId int) (survey.User, error) {
+	var user survey.User
+	query := fmt.Sprintf("SELECT * FROM %s WHERE id = $1", userTable)
+	err := r.db.Get(&user, query, userId)
+
+	return user, err
+}
