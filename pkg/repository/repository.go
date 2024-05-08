@@ -19,6 +19,7 @@ type Surveys interface {
 }
 
 type Users interface {
+	GetAll() ([]survey.User, error)
 }
 
 type Repository struct {
@@ -31,5 +32,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
 		Surveys:       NewSurveyPostgres(db),
+		Users:         NewUserPostgres(db),
 	}
 }

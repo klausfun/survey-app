@@ -39,7 +39,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 				survey.GET("/", h.getAllSurveys)
 				survey.GET("/:id", h.getSurveyById)
 				survey.DELETE("/:id", h.deleteSurvey)
-				//surveys.PUT("/:id", h.updateSurvey)
 			}
 
 			usersList := admin.Group("/usersList")
