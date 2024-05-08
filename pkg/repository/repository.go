@@ -15,6 +15,7 @@ type Surveys interface {
 	GetAll(userId int) ([]survey.Surveys, error)
 	GetById(userId, surveyId int) (survey.Surveys, error)
 	Delete(userId, surveyId int) error
+	Update(userId, surveyId int, input survey.UpdateSurveyInput) error
 }
 
 type Users interface {

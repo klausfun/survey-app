@@ -1,3 +1,5 @@
+DROP TABLE votes;
+
 DROP TABLE users_surveys;
 
 DROP TABLE surveys_questions;

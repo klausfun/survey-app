@@ -1,5 +1,7 @@
 package survey
 
+import "errors"
+
 type Data struct {
 	Id                  int           `json:"id" db:"id"`
 	Types               string        `json:"types" binding:"required" db:"types"`
@@ -19,37 +21,24 @@ type Answers struct {
 	Amount      int    `json:"amount" db:"amount"`
 }
 
-//type Surveys struct {
-//	Id    int    `json:"id" db:"id"`
-//	Types string `json:"types" db:"types"`
-//}
+type Vote struct {
+	UserId   int `json:"userId" db:"user_id"`
+	AnswerId int `json:"answerId" db:"answer_id"`
+	SurveyId int `json:"surveyId" db:"survey_id"`
+}
 
-//
-//type UsersSurveys struct {
-//	Id       int
-//	UserId   int
-//	SurveyId int
-//}
-//
-//type Questions struct {
-//	Id                  int    `json:"id"`
-//	QuestionDescription string `json:"question_description" binding:"required"`
-//}
-//
-//type SurveysQuestions struct {
-//	Id         int
-//	QuestionId int
-//	SurveyId   int
-//}
-//
-//type Answers struct {
-//	Id                 int    `json:"id"`
-//	AnswersDescription string `json:"answers_description" binding:"required"`
-//	Amount             int    `json:"amount"`
-//}
-//
-//type QuestionsAnswers struct {
-//	Id         int
-//	QuestionId int
-//	AnswerId   int
-//}
+type Types struct {
+	Types string `json:"types"`
+}
+
+type UpdateSurveyInput struct {
+	Response []interface{} `json:"response"`
+}
+
+func (i UpdateSurveyInput) Validate() error {
+	if i.Response == nil {
+		return errors.New("update structure has no values")
+	}
+
+	return nil
+}

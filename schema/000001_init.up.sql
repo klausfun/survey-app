@@ -9,8 +9,8 @@ CREATE TABLE users
 
 CREATE TABLE surveys
 (
-    id        serial       not null unique,
-    types      varchar(255) not null
+    id    serial       not null unique,
+    types varchar(255) not null
 );
 
 CREATE TABLE users_surveys
@@ -25,7 +25,6 @@ CREATE TABLE questions
     id          serial       not null unique,
     description varchar(255) not null
 );
-
 
 CREATE TABLE surveys_questions
 (
@@ -46,4 +45,12 @@ CREATE TABLE questions_answers
     id          serial                                          not null unique,
     question_id int references questions (id) on delete cascade not null,
     answer_id   int references answers (id) on delete cascade   not null
+);
+
+CREATE TABLE votes
+(
+    id        serial                                        not null unique,
+    user_id   int references users (id) on delete cascade   not null,
+    answer_id int references answers (id) on delete cascade not null,
+    survey_id int references surveys (id) on delete cascade not null
 );

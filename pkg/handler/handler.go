@@ -28,7 +28,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		{
 			surveys.GET("/", h.getAllSurveys)
 			surveys.GET("/:id", h.getSurveyById)
-			surveys.PATCH("/:id", h.updateSurvey)
+			surveys.PUT("/:id", h.updateSurvey)
 		}
 
 		admin := api.Group("/admin", h.adminIdentity)
@@ -39,6 +39,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 				survey.GET("/", h.getAllSurveys)
 				survey.GET("/:id", h.getSurveyById)
 				survey.DELETE("/:id", h.deleteSurvey)
+				//surveys.PUT("/:id", h.updateSurvey)
 			}
 
 			usersList := admin.Group("/usersList")

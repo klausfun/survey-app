@@ -13,6 +13,7 @@ const (
 	surveysQuestionsTable = "surveys_questions"
 	answersTable          = "answers"
 	questionsAnswersTable = "questions_answers"
+	votesTable            = "votes"
 )
 
 type Config struct {
