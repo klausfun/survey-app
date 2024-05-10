@@ -19,6 +19,11 @@ func (h *Handler) createSurvey(c *gin.Context) {
 		return
 	}
 
+	if input.Types != "free" && input.Types != "single" && input.Types != "multiple" {
+		newErrorResponse(c, http.StatusBadRequest, "invalid input.Types")
+		return
+	}
+
 	id, err := h.services.Surveys.CreateSurvey(userId, input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())

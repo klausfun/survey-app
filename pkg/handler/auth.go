@@ -14,6 +14,11 @@ func (h *Handler) signUp(c *gin.Context) {
 		return
 	}
 
+	if input.Role != "user" && input.Role != "admin" {
+		newErrorResponse(c, http.StatusBadRequest, "invalid input.Role")
+		return
+	}
+
 	id, err := h.services.Authorization.CreateUser(input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
